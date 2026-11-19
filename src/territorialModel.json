@@ -1,0 +1,107 @@
+{
+  "dataset": {
+    "rawRows": 2920,
+    "cleanRows": 2838,
+    "training": 2110,
+    "testing": 725,
+    "testStart": "2025-06-29"
+  },
+  "threshold": 0.35,
+  "minCoverage": 0.65,
+  "bands": [
+    {
+      "label": "0 a 19",
+      "rows": 1096,
+      "reports": 76,
+      "probability": 0.07012750455373407
+    },
+    {
+      "label": "20 a 44",
+      "rows": 558,
+      "reports": 185,
+      "probability": 0.33214285714285713
+    },
+    {
+      "label": "45 a 100",
+      "rows": 456,
+      "reports": 300,
+      "probability": 0.6572052401746725
+    }
+  ],
+  "evaluation": {
+    "total": 725,
+    "scored": 469,
+    "reported": 180,
+    "trueAlerts": 70,
+    "falseAlerts": 23,
+    "missed": 74,
+    "precision": 0.7526881720430108,
+    "recall": 0.4861111111111111,
+    "reach": 0.646896551724138,
+    "captured": 0.3888888888888889,
+    "brier": 0.14764441504985093,
+    "baselineBrier": 0.21445909213490547
+  },
+  "territories": [
+    {
+      "name": "Setor Norte",
+      "total": 181,
+      "scored": 0,
+      "reported": 27,
+      "trueAlerts": 0,
+      "falseAlerts": 0,
+      "missed": 0,
+      "precision": null,
+      "recall": null,
+      "reach": 0,
+      "captured": 0,
+      "brier": null,
+      "baselineBrier": null
+    },
+    {
+      "name": "Setor Sul",
+      "total": 178,
+      "scored": 103,
+      "reported": 33,
+      "trueAlerts": 12,
+      "falseAlerts": 7,
+      "missed": 12,
+      "precision": 0.631578947368421,
+      "recall": 0.5,
+      "reach": 0.5786516853932584,
+      "captured": 0.36363636363636365,
+      "brier": 0.14028697555791744,
+      "baselineBrier": 0.17979642856441908
+    },
+    {
+      "name": "Setor Leste",
+      "total": 184,
+      "scored": 184,
+      "reported": 53,
+      "trueAlerts": 33,
+      "falseAlerts": 10,
+      "missed": 20,
+      "precision": 0.7674418604651163,
+      "recall": 0.6226415094339622,
+      "reach": 1,
+      "captured": 0.6226415094339622,
+      "brier": 0.1276733374847692,
+      "baselineBrier": 0.205565795525902
+    },
+    {
+      "name": "Setor Oeste",
+      "total": 182,
+      "scored": 182,
+      "reported": 67,
+      "trueAlerts": 25,
+      "falseAlerts": 6,
+      "missed": 42,
+      "precision": 0.8064516129032258,
+      "recall": 0.373134328358209,
+      "reach": 1,
+      "captured": 0.373134328358209,
+      "brier": 0.17199878065229154,
+      "baselineBrier": 0.24306689940862533
+    }
+  ]
+}

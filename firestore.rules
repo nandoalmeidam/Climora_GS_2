@@ -1,0 +1,86 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function admin() {
+      return signedIn() && (request.auth.token.get('admin', false) == true || moderatorEnabled(request.auth.uid));
+    }
+    function moderatorEnabled(uid) {
+      let role = /databases/$(database)/documents/moderators/$(uid);
+      return exists(role) && get(role).data.get('enabled', false) == true;
+    }
+    function privateReport(id) {
+      return /databases/$(database)/documents/incidents/$(id);
+    }
+    function publicReport(id) {
+      return /databases/$(database)/documents/publishedIncidents/$(id);
+    }
+    function publicationMatches(source, publicData) {
+      return publicData.districtKey is string && publicData.districtKey.size() <= 100
+        && publicData == {
+          'uf': source.uf,
+          'city': source.city,
+          'cityId': source.cityId,
+          'district': source.district,
+          'country': source.get('country', 'BR'),
+          'districtKey': publicData.districtKey,
+          'latitude': source.latitude,
+          'longitude': source.longitude,
+          'kind': source.kind,
+          'description': source.description,
+          'status': 'approved',
+          'reviewedAt': request.time
+        };
+    }
+    match /moderators/{uid} {
+      allow get: if signedIn() && request.auth.uid == uid;
+    }
+    function locality(data) {
+      let country = data.get('country', 'BR');
+      let brazil = country == 'BR' && data.cityId >= 1100000 && data.cityId < 5400000 && data.uf in ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'];
+      let abroad = country is string && country.matches('[A-Z]{2}') && country != 'BR' && data.cityId < 0
+        && data.uf is string && data.uf.size() <= 100;
+      return data.cityId is int && (brazil || abroad)
+        && data.city is string && data.city.size() > 0 && data.city.size() <= 100
+        && data.district is string && data.district.size() <= 100;
+    }
+    match /incidents/{id} {
+      allow read: if (signedIn() && resource.data.author == request.auth.uid) || admin();
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['uf','city','cityId','district','country','latitude','longitude','author','status','kind','description','photoPath','createdAt'])
+        && locality(request.resource.data)
+        && request.resource.data.author == request.auth.uid
+        && request.resource.data.status == 'pending'
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.kind in ['Alagamento','Deslizamento','Árvore caída','Falta de energia','Via bloqueada']
+        && request.resource.data.description is string && request.resource.data.description.size() >= 10 && request.resource.data.description.size() <= 1500
+        && request.resource.data.latitude is number && request.resource.data.latitude >= -90 && request.resource.data.latitude <= 90
+        && request.resource.data.longitude is number && request.resource.data.longitude >= -180 && request.resource.data.longitude <= 180
+        && request.resource.data.photoPath is string
+        && (request.resource.data.photoPath == '' || request.resource.data.photoPath.matches('incidents/' + request.auth.uid + '/[a-f0-9-]{36}'));
+      allow update: if admin() && resource.data.status == 'pending'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'reviewedAt'])
+        && request.resource.data.reviewedAt == request.time
+        && (
+          request.resource.data.status == 'rejected'
+          || (request.resource.data.status == 'approved'
+            && existsAfter(publicReport(id))
+            && publicationMatches(resource.data, getAfter(publicReport(id)).data))
+        );
+    }
+    match /publishedIncidents/{id} {
+      allow read: if true;
+      allow create: if admin()
+        && get(privateReport(id)).data.status == 'pending'
+        && getAfter(privateReport(id)).data.status == 'approved'
+        && getAfter(privateReport(id)).data.reviewedAt == request.time
+        && publicationMatches(get(privateReport(id)).data, request.resource.data);
+    }
+    match /users/{uid}/subscriptions/{id} {
+      allow read, delete: if signedIn() && request.auth.uid == uid;
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['uf','city','cityId','district','country'])
+        && locality(request.resource.data);
+    }
+  }
+}

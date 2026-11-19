@@ -1,0 +1,38 @@
+
+> climora@0.0.0 test:e2e
+> npm run build && playwright test
+
+
+> climora@0.0.0 build
+> tsc -b && vite build
+
+[36mvite v8.3.8 [32mbuilding client environment for production...[36m[39m
+transforming...
+Ô£ô 2560 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.72 kB Ôöé gzip:   0.42 kB
+dist/assets/index-5ggRMMpr.css     33.05 kB Ôöé gzip:  11.19 kB
+dist/assets/index-piMTQreD.js   1,453.94 kB Ôöé gzip: 436.21 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[32mÔ£ô built in 1.18s[39m
+
+Running 10 tests using 1 worker
+
+  Ô£ô   1 tests\pages.spec.ts:16:1 ÔÇ║ seleciona estado, cidade e bairro e consulta o mapa (858ms)
+  Ô£ô   2 tests\pages.spec.ts:30:1 ÔÇ║ permite alternar o gr├ífico e acessar os avisos oficiais (558ms)
+  Ô£ô   3 tests\pages.spec.ts:38:1 ÔÇ║ abre o painel offline ap├│s instalar o service worker (649ms)
+  Ô£ô   4 tests\pages.spec.ts:54:1 ÔÇ║ apresenta chance de chuva, rajadas e fontes para an├ílise local (565ms)
+  Ô£ô   5 tests\pages.spec.ts:66:1 ÔÇ║ mant├®m a leitura e os controles acess├¡veis em uma tela estreita (586ms)
+  Ô£ô   6 tests\pages.spec.ts:76:1 ÔÇ║ busca uma cidade internacional, distingue hom├┤nimos e volta a S├úo Paulo ao recarregar (1.6s)
+  Ô£ô   7 tests\pages.spec.ts:118:1 ÔÇ║ atualiza os quatro pain├®is ao escolher o pa├¡s sem aplicar filtros (636ms)
+  Ô£ô   8 tests\pages.spec.ts:135:1 ÔÇ║ alinha os filtros internacionais mesmo quando a busca retorna op├º├Áes (808ms)
+  Ô£ô   9 tests\pages.spec.ts:169:1 ÔÇ║ lista cidades do pa├¡s selecionado e aplica uma cidade sem busca por nome (660ms)
+  Ô£ô  10 tests\pages.spec.ts:187:1 ÔÇ║ limpa localidade, bairro e tipo de ocorr├¬ncia (771ms)
+
+  10 passed (8.8s)
