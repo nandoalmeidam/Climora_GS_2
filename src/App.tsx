@@ -228,6 +228,8 @@ function App() {
       void perform(async () => {
         const neighborhoodPoint = await locateDistrict(reportPlace)
         await reportIncident(user, reportPlace, neighborhoodPoint, String(data.get('kind')) as Kind, description, file instanceof File && file.size ? file : null)
+        setPage('alerts')
+        setMessage('Ocorrência registrada. Status: Em análise.')
       }, true)
     }
   }
@@ -336,6 +338,10 @@ function App() {
           <IncidentMap point={point} incidents={filtered} />{firebase ? <IncidentList items={filtered} emptyMessage={filter === 'all' ? 'Nenhuma ocorrência validada nesta região.' : 'Nenhuma ocorrência validada desse tipo nesta região.'} /> : <p>Conecte o Firebase para consultar e registrar ocorrências.</p>}
           {user && <><h2>Meus registros</h2>{ownReports.some(item => item.status === 'pending') && <p>Seus registros em análise aparecem aqui. Após aprovação, eles aparecem no mapa público da região.</p>}<IncidentList items={ownReports}>{() => null}</IncidentList></>}</section>}
 
+        {currentPage === 'alerts' && user && <section className="panel page-panel" aria-labelledby="my-alert-reports">
+          <h2 id="my-alert-reports">Meus registros</h2>
+          <IncidentList items={ownReports} emptyMessage="Você ainda não registrou ocorrências.">{() => null}</IncidentList>
+        </section>}
         {canShowLocation && currentPage === 'alerts' && <section className="panel page-panel"><div className="panel-heading"><div><h2>Locais acompanhados</h2><p>{selectedLocation}</p></div><Button disabled={busy} onClick={() => user ? void perform(() => toggleSubscription(user, place, followed)) : openModal('account')}><Bell size={17} />{followed ? 'Parar de acompanhar' : 'Acompanhar local'}</Button></div>
           {user && subscriptions.length ? <ul className="reports">{subscriptions.map(item => <li key={item.id}><div><strong>{locationLabel(item)}</strong><Button variant="outline" disabled={busy} onClick={() => void perform(() => toggleSubscription(user, item, true))}>Remover</Button></div><LocalAlerts place={item} /></li>)}</ul> : <p>{user ? 'Nenhum local acompanhado.' : 'Entre na sua conta para acompanhar locais.'}</p>}
           <h2>Avisos oficiais</h2><p>Consulte os avisos oficiais para a área selecionada. A validade e a cobertura constam em cada aviso.</p><a className="text-link" href={officialPortal.url} target="_blank" rel="noreferrer">Consultar avisos {officialPortal.name === 'OMM' ? 'da' : 'do'} {officialPortal.name}</a></section>}
