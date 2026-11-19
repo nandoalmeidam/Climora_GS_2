@@ -1,15 +1,72 @@
-# Climora
+<div align="center">
 
-Plataforma de análise territorial para antecipar problemas que afetam a qualidade de vida. O primeiro recorte é a análise da chuva e de relatos de alagamento nas próximas 24 horas. Na página **Análise de risco**, o monitoramento municipal usa previsão pública e o painel de antecipação permite explorar um modelo estatístico com dados sintéticos.
+# 🌧️ CLIMORA
 
-## Executar localmente
+### Informação climática, participação da comunidade e análise territorial em um só lugar.
+
+**Global Solution 2026 · FIAP · Ciência da Computação**
+
+![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-DD2C00?style=flat-square&logo=firebase&logoColor=white)
+![Capacitor](https://img.shields.io/badge/Capacitor-119EFF?style=flat-square&logo=capacitor&logoColor=white)
+
+**[Repositório no GitHub](https://github.com/nandoalmeidam/Climora_GS_2)**
+
+</div>
+
+---
+
+## 💙 Sobre o projeto
+
+Quando uma chuva forte se aproxima, nem sempre é fácil encontrar informações claras sobre o tempo e os problemas que podem acontecer em uma região. Foi pensando nisso que criamos o **Climora**.
+
+Nossa proposta é reunir previsão meteorológica, consulta de localidades, avisos oficiais, mapa e relatos da comunidade em uma experiência simples de usar. Além disso, o projeto explora como dados podem ajudar a compreender cenários de alagamento e apoiar futuras ações preventivas.
+
+O Climora nasceu como projeto acadêmico, mas foi desenvolvido com a preocupação de ter uma base organizada, funcionalidades úteis e espaço para continuar evoluindo.
+
+> **Importante:** o Climora é uma ferramenta informativa e experimental. Não substitui avisos da Defesa Civil, do INMET ou de outras autoridades. A análise estatística demonstrativa não representa uma previsão validada de alagamentos reais.
+
+## ✨ O que o Climora oferece
+
+| Funcionalidade | Como funciona |
+| --- | --- |
+| 🌤️ **Visão geral do clima** | Consulta de previsão, temperatura, chuva e vento para a localidade selecionada. |
+| 🌎 **Seleção de localidades** | Consulta de países e cidades; no Brasil, seleção de estado e município. |
+| 🗺️ **Mapa da região** | Visualização territorial usando OpenStreetMap. |
+| ⚠️ **Avisos meteorológicos** | Acesso a avisos do INMET no Brasil e referência à OMM para outros países. |
+| 📝 **Relatos da comunidade** | Registro de ocorrências, com publicação condicionada à moderação. |
+| 🤖 **Perguntar sobre o tempo** | Respostas baseadas na previsão; interpretação com OpenAI disponível mediante configuração adicional. |
+| 📈 **Análise de risco** | Monitoramento meteorológico e exploração de um cenário estatístico com dados sintéticos. |
+| 📲 **Instalação** | Aplicativo web instalável (PWA) e empacotamento para Android com Capacitor. |
+
+## 🛠️ Tecnologias e serviços
+
+- **React + TypeScript:** interface e lógica da aplicação.
+- **Firebase Authentication, Cloud Firestore e Hosting:** acesso, armazenamento e publicação.
+- **Firebase Cloud Functions / Storage:** recursos opcionais no plano Blaze.
+- **Open-Meteo:** dados meteorológicos e geocodificação.
+- **IBGE e GeoNames:** catálogos de localidades.
+- **OpenStreetMap:** base cartográfica.
+- **Capacitor:** versão Android.
+- **Node.js e Python:** processamento territorial e experimentos estatísticos.
+
+## 📌 Antes de começar
+
+Para executar a aplicação web, é necessário ter **Node.js e npm** instalados. Os recursos conectados ao Firebase exigem a configuração das variáveis do projeto. Use o arquivo `.env.example` como referência para criar seu `.env.local` e **não publique chaves privadas ou segredos no repositório**.
+
+A previsão do tempo, os mapas e os registros precisam de internet. A PWA pode abrir sua interface offline após o primeiro acesso online, mas isso não significa que os dados externos estarão disponíveis sem conexão.
+
+---
+
+## 🚀 Como executar o projeto
 
 ```sh
 npm ci
 npm run dev
 ```
 
-## APK Android
+## 📱 Gerando o APK para Android
 
 O Climora usa Capacitor para empacotar o aplicativo web no Android. A compilação exige JDK 21 e o SDK Android 36. Configure `JAVA_HOME` e `ANDROID_HOME` antes de executar os comandos abaixo no PowerShell.
 
@@ -26,7 +83,7 @@ A central abre sempre na cidade de São Paulo ao iniciar ou recarregar o aplicat
 
 O painel combina o catálogo do [IBGE](https://servicodados.ibge.gov.br/api/docs/localidades), a [geocodificação do Open-Meteo](https://open-meteo.com/en/docs/geocoding-api), baseada no GeoNames, a previsão do [Open-Meteo](https://open-meteo.com/en/docs) e o mapa do [OpenStreetMap](https://www.openstreetmap.org/copyright). O histórico recente de chuva e temperatura corresponde às estimativas de modelo do Open-Meteo. Os avisos do [INMET](https://avisos.inmet.gov.br/) são consultados pelo portal oficial no Brasil. No exterior, o Climora aponta para o [centro de avisos da OMM](https://severeweather.wmo.int/), cuja cobertura depende dos serviços meteorológicos participantes.
 
-## Firebase Spark
+## 🔐 Firebase: autenticação, banco de dados e moderação
 
 O modo padrão usa Authentication por e-mail e senha, Firestore e Firebase Hosting. Preencha a configuração web em `.env.local` a partir de `.env.example`.
 
@@ -44,7 +101,7 @@ No Spark, o relato é enviado sem foto. A aprovação atualiza o relato privado 
 
 O modo Blaze é opcional. Para habilitar fotos e as funções administrativas, configure Cloud Storage e Cloud Functions, ajuste a CORS do bucket para a origem do app, atribua a custom claim `admin: true` ao moderador e defina `VITE_FIREBASE_MODE=blaze` em `.env.local`. Implante as regras do Firestore pelo arquivo padrão e faça a implantação adicional com `firebase deploy --config firebase.blaze.json --project climora-47861`.
 
-### Assistente de previsão
+### 🤖 Assistente de previsão
 
 Na Visão geral, **Perguntar sobre o tempo** responde às perguntas mais comuns com a previsão do Open-Meteo da cidade selecionada. Para interpretar perguntas e redigir respostas com a OpenAI, habilite o Firebase Blaze, registre a chave no Secret Manager e implante a função:
 
@@ -62,7 +119,7 @@ firebase emulators:exec --only firestore --project demo-climora "node tests/fire
 ```
 A PWA pode ser instalada a partir do navegador em HTTPS ou localhost. Após o primeiro acesso online, a interface de produção abre offline. Dados de clima, mapas e registros dependem de conexão. O acompanhamento oferece avisos no painel. Entrega de notificações push requer integração adicional.
 
-## Análise territorial
+## 📊 Análise territorial e risco
 
 O painel tem dois fluxos de dados. O monitoramento consulta o Open-Meteo e organiza as séries de chuva, temperatura e vento pela data local. A previsão tem resolução municipal. O cenário de pesquisa é separado e contém quatro setores fictícios, com um registro por setor e dia de emissão. A chuva indica o acumulado previsto para o horizonte seguinte de 24 horas. O rótulo é a ocorrência de ao menos um relato de alagamento nesse horizonte. A cobertura é a probabilidade de registro usada na simulação.
 
@@ -82,7 +139,7 @@ O modelo estima a frequência de relatos por faixa de chuva com suavização de 
 
 **Uso responsável.** Antes de testar com dados reais, obtenha dados autorizados e agregue por setor e dia, com supressão de grupos pequenos. Avalie desempenho por território, estação e cobertura. Drenagem, relevo, qualidade da previsão e diferenças de acesso aos canais de relato podem comprometer a estimativa. Combine canais digitais e presenciais, ofereça revisão humana e consulte os avisos oficiais para decisões de segurança. O cenário não aciona notificações nem decisões automáticas.
 
-## Experimento de regressão logística
+## 🧪 Experimento de regressão logística
 
 `intelligence/model.py` é um modelo inicial de regressão logística. Ele combina chuva prevista e histórico de relatos para estimar a chance de um novo relato nas próximas 24 horas. O CSV de treino deve conter:
 
@@ -101,7 +158,7 @@ python intelligence/model.py train historico.csv modelo.joblib
 python intelligence/model.py score modelo.joblib 25 52 3
 ```
 
-## Verificação
+## ✅ Testes e verificações
 
 ```sh
 npm test
@@ -113,5 +170,28 @@ npm run build
 
 O Playwright usa respostas controladas das APIs de clima e localidades para verificar a interface sem depender de serviços externos.
 
+---
 
+## 🌱 Próximos passos
 
+O projeto pode evoluir com estudos usando dados reais autorizados, avaliação por território, melhorias de acessibilidade e integração adicional para notificações push. Qualquer recurso de alerta automatizado deve passar por validação e manter os avisos oficiais como referência.
+
+## 👥 Equipe
+
+| Integrante | RM |
+| :--- | :---: |
+| **Fernando de Almeida Godoi Martines** | `564820` |
+| **Gabriel Ber Soares Tarone** | `563520` |
+| **Guilherme de Freitas Salgado** | `562494` |
+
+Projeto acadêmico desenvolvido para a **Global Solution — FIAP**.
+
+## 📚 Fontes e créditos
+
+A aplicação utiliza dados e serviços de terceiros, sujeitos às condições e à cobertura de cada fornecedor: [Open-Meteo](https://open-meteo.com/), [IBGE](https://servicodados.ibge.gov.br/), [GeoNames](https://www.geonames.org/export/) (CC BY 4.0), [OpenStreetMap](https://www.openstreetmap.org/copyright), [INMET](https://avisos.inmet.gov.br/) e [OMM](https://severeweather.wmo.int/).
+
+<div align="center">
+
+**Climora — informação que ajuda a olhar para o clima e para as pessoas.** 💙
+
+</div>
