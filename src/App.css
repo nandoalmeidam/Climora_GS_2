@@ -167,6 +167,8 @@ input::placeholder { color: var(--muted); }
 .local-alerts { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 5px; }
 .reports .local-alerts li { background: #f4f8fe; }
 .local-alerts small { color: var(--muted); }
+.local-alert-details { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--muted); font-size: 14px; }
+.local-alert-details:empty { display: none; }
 .admin-counts { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0 13px; padding: 0; list-style: none; }
 .admin-counts li { font-size: 14px; background: var(--soft); border-radius: 7px; padding: 5px 9px; }
 .admin-counts strong { margin-left: 5px; }
